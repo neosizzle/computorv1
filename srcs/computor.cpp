@@ -2,6 +2,8 @@
 
 void computor(std::string arg)
 {
+	std::vector<Term> terms;
+
 	// trim all whitespaces from input
 	arg.erase(std::remove_if(arg.begin(), arg.end(), isspace), arg.end());
 
@@ -23,8 +25,8 @@ void computor(std::string arg)
 	}
 
 	// extract terms
-	extract_terms(arg);
-	
+	extract_terms(arg, terms);
+	print_terms(terms);
 
 	// 
 

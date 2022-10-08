@@ -37,7 +37,15 @@ const std::vector<char> POLY_LINK_SYMBOLS = {'+', '-'};
  * @brief Utils
  * 
  */
+bool compare_powers(Term one, Term two);
+int count_digit(int number);
+
+/**
+ * @brief Term operations
+ * 
+ */
 char validate_symbols(std::string str);
-void	extract_terms(std::string str);
+void	extract_terms(std::string str, std::vector<Term> &terms);
+void	print_terms(std::vector<Term> terms);
 
 void computor(std::string input);
