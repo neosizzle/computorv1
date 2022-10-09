@@ -190,7 +190,77 @@ void group_terms(std::vector<Term> &lhs, std::vector<Term> &rhs)
 	}
 }
 
-// extract terms and simplify
+// simplyfy terms
+void simplify_terms(std::vector<Term> &terms)
+{
+	std::vector<Term> new_terms;
+	Term new_term;
+	int curr_power;
+
+	curr_power = INT16_MAX;
+	new_term.constant = 0;
+	new_term.is_neg = false;
+	for ( std::vector<Term>::iterator iter = terms.begin(); iter != terms.end(); ++iter)
+	{
+		Term curr_term = *iter;
+
+		// current iter term is not equals to current power
+		if (curr_term.power != curr_power)
+		{
+			// push new term to terms if new term is not initial
+			if (curr_power != INT16_MAX)
+				new_terms.push_back(new_term);
+			curr_power = curr_term.power;
+			new_term.power = curr_term.power;
+			new_term.constant = curr_term.constant;
+			new_term.is_neg = curr_term.is_neg ;
+		}
+		else
+		{
+			// current iter term is same power as curr new ter
+			if (new_term.is_neg)
+			{
+				// new term is negative 
+				// curr iter term is negative
+				if (curr_term.is_neg)
+					new_term.constant += curr_term.constant;
+				else
+				{
+					// curr iter term is positive
+					new_term.constant = ft_abs(new_term.constant, curr_term.constant);
+					if (curr_term.constant > new_term.constant) new_term.is_neg = false;
+				}
+
+			}
+			else
+			{
+				// new term is positive
+				// curr iter term is negative
+				if (curr_term.is_neg)
+				{
+					new_term.constant = ft_abs(new_term.constant, curr_term.constant);
+					if (curr_term.constant > new_term.constant) new_term.is_neg = true;
+				}
+				else
+					new_term.constant += curr_term.constant;
+			}
+		}
+	}
+	
+	//add last term
+	if (curr_power != INT16_MAX)
+		new_terms.push_back(new_term);
+
+	// override term
+	terms = new_terms;
+}
+
+/**
+ * @brief Extract and group terms based on arg input
+ * 
+ * @param str 
+ * @param terms 
+ */
 void extract_terms(std::string str, std::vector<Term> &terms)
 {
 	int read_start;
@@ -262,8 +332,6 @@ void extract_terms(std::string str, std::vector<Term> &terms)
 	// move rhs to lhs (group terms)
 	group_terms(terms, rhs_terms);
 	// print_terms(rhs_terms);
-
-	// simplify terms
 
 	// sort terms by power
 	std::sort(terms.begin(), terms.end(), compare_powers);

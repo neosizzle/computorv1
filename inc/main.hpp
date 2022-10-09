@@ -33,6 +33,13 @@ const char KARET_SYMBOL = '^';
 const std::vector<char> TERM_SYMBOLS = {'^', '*', VAR_SYMBOL};
 const std::vector<char> POLY_LINK_SYMBOLS = {'+', '-'};
 
+
+/**
+ * @brief Math utils
+ * 
+ */
+int ft_abs(int a, int b);
+
 /**
  * @brief Utils
  * 
@@ -47,5 +54,6 @@ int count_digit(int number);
 char validate_symbols(std::string str);
 void	extract_terms(std::string str, std::vector<Term> &terms);
 void	print_terms(std::vector<Term> terms);
+void simplify_terms(std::vector<Term> &terms);
 
 void computor(std::string input);

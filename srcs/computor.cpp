@@ -24,11 +24,14 @@ void computor(std::string arg)
 		return;
 	}
 
-	// extract terms
+	// extract and group terms
 	extract_terms(arg, terms);
+
+	// simplufy terms
+	simplify_terms(terms);
 	print_terms(terms);
 
-	// 
+	
 
 	std::cout << "End " << "\n";
 }
