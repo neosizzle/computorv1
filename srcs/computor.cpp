@@ -31,7 +31,12 @@ void computor(std::string arg)
 	simplify_terms(terms);
 	print_terms(terms);
 
-	
+	// validate equation
+	if (validate_equation(terms))
+		return ;
+
+	const Solution solution = evaluate_equation(terms);
+	print_solution(solution);
 
 	std::cout << "End " << "\n";
 }

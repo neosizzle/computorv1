@@ -1,5 +1,5 @@
 NAME = computor
-CPP = c++
+CPP = c++ -fsanitize=address -g3
 INCS = inc
 CPP_FLAGS = -I${INCS}
 SRCS = srcs/*.cpp

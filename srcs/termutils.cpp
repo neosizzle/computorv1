@@ -44,6 +44,32 @@ void print_terms(std::vector<Term> terms)
 }
 
 /**
+ * @brief print a single term
+ * 
+ * @param term 
+ */
+void print_term(Term curr_term)
+{
+		// decide wether to print + or not for positive terms
+		if (curr_term.is_neg)
+			std::cout << '-';
+
+		// print constant
+		if (curr_term.constant == 0)
+		{
+			std::cout << '0';
+			return ;
+		}
+		std::cout << curr_term.constant;
+
+		// print variable
+		std::cout << VAR_SYMBOL;
+
+		// print power
+		std::cout << KARET_SYMBOL << curr_term.power << "\n";
+}
+
+/**
  * @brief Parses term string into term struct
  *
  * @param term_str
@@ -91,7 +117,7 @@ Term parse_term(std::string term_str)
 		++read_idx;
 
 	// if a karet is found, record power
-	if (term_str[read_idx + 1] == '^')
+	if (term_str.length() > 2 &&  term_str[read_idx + 1] == '^')
 		power = atoi(term_str.c_str() + (read_idx + 2));
 	// case where const is the variable itself
 	else if (const_is_var)
@@ -176,7 +202,12 @@ int validate_term(std::string term_str)
 	return 0;
 }
 
-// moves rhs terms to lhs individually
+/**
+ * @brief Groups all terms to the left hand side without simplification
+ * 
+ * @param lhs 
+ * @param rhs 
+ */
 void group_terms(std::vector<Term> &lhs, std::vector<Term> &rhs)
 {
 
@@ -190,7 +221,11 @@ void group_terms(std::vector<Term> &lhs, std::vector<Term> &rhs)
 	}
 }
 
-// simplyfy terms
+/**
+ * @brief Simplify terms in an equation to make the form ax^2+bx+c (assume terms are sorted by power)
+ * 
+ * @param terms 
+ */
 void simplify_terms(std::vector<Term> &terms)
 {
 	std::vector<Term> new_terms;
@@ -223,12 +258,14 @@ void simplify_terms(std::vector<Term> &terms)
 				// new term is negative 
 				// curr iter term is negative
 				if (curr_term.is_neg)
+				{
 					new_term.constant += curr_term.constant;
+				}
 				else
 				{
 					// curr iter term is positive
-					new_term.constant = ft_abs(new_term.constant, curr_term.constant);
 					if (curr_term.constant > new_term.constant) new_term.is_neg = false;
+					new_term.constant = (float)ft_abs(new_term.constant, curr_term.constant);
 				}
 
 			}
@@ -238,8 +275,8 @@ void simplify_terms(std::vector<Term> &terms)
 				// curr iter term is negative
 				if (curr_term.is_neg)
 				{
-					new_term.constant = ft_abs(new_term.constant, curr_term.constant);
 					if (curr_term.constant > new_term.constant) new_term.is_neg = true;
+					new_term.constant = (float)ft_abs(new_term.constant, curr_term.constant);
 				}
 				else
 					new_term.constant += curr_term.constant;
@@ -335,4 +372,31 @@ void extract_terms(std::string str, std::vector<Term> &terms)
 
 	// sort terms by power
 	std::sort(terms.begin(), terms.end(), compare_powers);
+}
+
+//validates the equatuion to make sure its a valid 2nd degree polynimial (assumes terms are sorted by power)
+int validate_equation(std::vector<Term> terms)
+{
+	// check if max power is 2
+	if (terms[0].power > 2)
+	{
+		std::cout << "Degree is more than 2\n";
+		return 1;
+	}
+
+	// check if min power is 1
+	if (terms[0].power <= 0)
+	{
+		std::cout << "Degree must be greater than 0\n";
+		return 1;
+	}
+	// check if num of terms is more than 3
+	// if (terms.size() > 3)
+	// {
+	// 	std::cout << "Bad number of terms\n";
+	// 	return 1;
+	// }
+
+	// all good
+	return 0;
 }
