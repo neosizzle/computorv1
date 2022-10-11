@@ -52,9 +52,14 @@ float ft_sqrt(float x, float guess)
 
 	// std::cout << "guess " << guess << "\n";
 	// std::cout << "inverse " << inverse << "\n";
+	// std::cout << "guess - inverse " << ((guess - inverse)*1000000) << "\n";
 	// sleep(2);
+
+	// return 0 if x == 0
+	if (x == 0) return x;
+
 	// return guess if guess and x / guess are equal
-	if (guess == inverse)
+	if (int((guess - inverse)*1000000) == 0)
 		return guess;
 
 	// take the avg of two and make it the new guess
@@ -129,6 +134,9 @@ static Solution evaluate_monomial(std::vector<Term> terms)
 	// if length of terms is 1, return solution
 	if (terms.size() == 1) return res;
 
+	// print banner
+	print(std::string(BOLDGREEN) + "========== CALCUATION ==========" + std::string(RESET));
+
 	a = terms[0].constant;
 	if (terms[0].is_neg) b *= -1;
 
@@ -138,6 +146,12 @@ static Solution evaluate_monomial(std::vector<Term> terms)
 	result = ((b * -1) / a);
 	res.solution_one = result;
 	res.solution_two = result;
+
+	//print result formula
+	print(std::string(BOLDWHITE) + std::string("Solution: ") + std::string(RESET) + std::string(BOLDWHITE) + std::to_string((int)b) + std::string(RESET) + std::string(" * -1 / ") + std::string(BOLDWHITE) + std::to_string((int)a) + std::string(RESET));
+
+	// print banner
+	print(std::string(BOLDGREEN) + "========== CALCUATION END ==========" + std::string(RESET));
 
 	return res;
 }
@@ -163,14 +177,34 @@ static Solution evaluate_bonimial(std::vector<Term> terms)
 	res.imaginary_term = -1;
 	res.for_degree = 2;
 
+	// print banner
+	print(std::string(BOLDGREEN) + "========== CALCUATION ==========" + std::string(RESET));
+
+	// print a, b, and c
+	print(std::string(BOLDWHITE) + std::string("a: ") + std::string(RESET) + std::to_string((int)eq.a));
+	print(std::string(BOLDWHITE) + std::string("b: ") + std::string(RESET) + std::to_string((int)eq.b));
+	print(std::string(BOLDWHITE) + std::string("c: ") + std::string(RESET) + std::to_string((int)eq.c));
+
+
 	// evaluate discriminant b^2-4ac
 	discriminant = ft_pow(eq.b, 2) - 4 * eq.a * eq.c;
+
+	// print discriminant
+	print(std::string(BOLDWHITE) + std::string("b^2-4ac (discriminant): ") + std::string(RESET) + std::to_string((int)discriminant));
+
 	if (discriminant < 0)
 	{
 		res.neg_discriminant = true;
 		discriminant *= -1;
 	}
 	float discriminant_squared = ft_sqrt(discriminant, discriminant / 2);
+
+	// print discriminant squared
+	print(std::string(BOLDWHITE) + std::string("Discriminant squared: ") + std::string(RESET) + std::to_string(discriminant_squared));
+
+
+	print(std::string(BOLDWHITE) + std::string("First solution: ") + std::string(RESET) + std::string(BOLDWHITE) + std::to_string((int)eq.b) + std::string(RESET) + std::string(" * -1 + ") + std::string(BOLDWHITE) + std::to_string(discriminant_squared) + std::string(RESET) + std::string(" / 2 * ") + std::string(BOLDWHITE) + std::to_string((int)eq.a) + std::string(RESET));
+	print(std::string(BOLDWHITE) + std::string("Second solution: ") + std::string(RESET) + std::string(BOLDWHITE) + std::to_string((int)eq.b) + std::string(RESET) + std::string(" * -1 - ") + std::string(BOLDWHITE) + std::to_string(discriminant_squared) + std::string(RESET) + std::string(" / 2 * ") + std::string(BOLDWHITE) + std::to_string((int)eq.a) + std::string(RESET));
 
 	// evaluate the result from formula
 	const float first_sol = ((eq.b * -1) + discriminant_squared) / (2 * eq.a);
@@ -190,6 +224,8 @@ static Solution evaluate_bonimial(std::vector<Term> terms)
 	if (first_sol == second_sol) res.num_sols = 1;
 	else res.num_sols = 2;
 
+	// print footer
+	print(std::string(BOLDGREEN) + "========== CALCUATION END ==========" + std::string(RESET));
 	return res;
 }
 

@@ -11,16 +11,14 @@ void computor(std::string arg)
 	const char invalid_symbol = validate_symbols(arg);
 	if (invalid_symbol)
 	{
-		std::cout << "Invalid symbol \'" << invalid_symbol << "\'"
-				  << "\n";
+		print_err(std::string("Invalid symbol \'") + invalid_symbol + std::string("\'"));
 		return;
 	}
 
 	// can only have one '='
 	if (std::count(arg.begin(), arg.end(), '=') != 1)
 	{
-		std::cout << "Invalid number of \'" << EQ_SYMBOL << "\'"
-				  << "\n";
+		print_err(std::string("Invalid number of  \'") + EQ_SYMBOL + std::string("\'"));
 		return;
 	}
 
@@ -29,7 +27,10 @@ void computor(std::string arg)
 
 	// simplufy terms
 	simplify_terms(terms);
-	print_terms(terms);
+
+	// print reduced equation
+	print(std::string(BOLDWHITE) + std::string("Reduced form: ") + std::string(RESET) + terms_to_str(terms) + " = 0");
+	// print_terms(terms);
 
 	// validate equation
 	if (validate_equation(terms))

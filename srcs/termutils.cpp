@@ -10,6 +10,47 @@ bool compare_powers(Term one, Term two)
 }
 
 /**
+ * @brief Convert terms to equation string
+ * 
+ * @param terms 
+ * @return std::string 
+ */
+std::string terms_to_str(std::vector<Term> terms)
+{
+	std::string res;
+	std::ostringstream ss;
+
+	for (std::vector<Term>::iterator iter = terms.begin(); iter != terms.end(); ++iter)
+	{
+		const Term curr_term = *iter;
+
+		// decide wether to print + or not for positive terms
+		if (curr_term.is_neg)
+			ss << "- ";
+		else if (iter != terms.begin())
+			ss << "+ ";
+
+		// print constant
+		if (curr_term.constant == 0)
+		{
+			ss <<  '0';
+			continue;
+		}
+		ss << curr_term.constant;
+
+		// print variable
+		ss << VAR_SYMBOL;
+
+		// print power
+		ss << KARET_SYMBOL;
+		ss << curr_term.power;
+		ss << ' ';
+	}
+	res = ss.str();
+	return res;
+}
+
+/**
  * @brief Prints out terms in a polynomial standard
  *
  * @param terms
@@ -322,7 +363,7 @@ void extract_terms(std::string str, std::vector<Term> &terms)
 				// return 1 here
 				if (validate_term(curr_term_str))
 				{
-					std::cout << "bad token |" << curr_term_str << "|\n";
+					print_err(std::string( "Bad token: ") + curr_term_str);
 					exit(1);
 				}
 
@@ -352,7 +393,7 @@ void extract_terms(std::string str, std::vector<Term> &terms)
 				// return 1 here
 				if (validate_term(curr_term_str))
 				{
-					std::cout << "bad token |" << curr_term_str << "|\n";
+					print_err(std::string( "Bad token: ") + curr_term_str);
 					exit(1);
 				}
 
@@ -377,17 +418,20 @@ void extract_terms(std::string str, std::vector<Term> &terms)
 //validates the equatuion to make sure its a valid 2nd degree polynimial (assumes terms are sorted by power)
 int validate_equation(std::vector<Term> terms)
 {
+	// print degree
+	print(std::string(BOLDWHITE) + std::string("Degree: ") + std::string(RESET) + std::to_string(terms[0].power));
+
 	// check if max power is 2
 	if (terms[0].power > 2)
 	{
-		std::cout << "Degree is more than 2\n";
+		print_err("Degree must be more than 2");
 		return 1;
 	}
 
 	// check if min power is 1
 	if (terms[0].power <= 0)
 	{
-		std::cout << "Degree must be greater than 0\n";
+		print_err("Degree must be greater than 0");
 		return 1;
 	}
 	// check if num of terms is more than 3

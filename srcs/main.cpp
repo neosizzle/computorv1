@@ -5,7 +5,7 @@ int main(int argc, char const *argv[])
 	
 	if (argc != 2)
 	{
-		std::cout << "bad argc\n" ;
+		print_err("Bad argc");
 		return 1;
 	}
 
