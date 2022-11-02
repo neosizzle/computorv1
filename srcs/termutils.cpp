@@ -424,7 +424,7 @@ int validate_equation(std::vector<Term> terms)
 	// check if max power is 2
 	if (terms[0].power > 2)
 	{
-		print_err("Degree must be more than 2");
+		print_err("Degree must not be more than 2");
 		return 1;
 	}
 
