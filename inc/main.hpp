@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <sstream>
 
+#ifndef __MAIN__H__
+#define __MAIN__H__
+
 #define RESET "\033[0m"
 #define BLACK "\033[30m"			  /* Black */
 #define RED "\033[31m"				  /* Red */
@@ -67,16 +70,9 @@ public:
 const char VAR_SYMBOL = 'x';
 const char EQ_SYMBOL = '=';
 const char KARET_SYMBOL = '^';
-const std::vector<char> TERM_SYMBOLS;
-const std::vector<char> POLY_LINK_SYMBOLS;
+std::vector<char> TERM_SYMBOLS;
+std::vector<char> POLY_LINK_SYMBOLS;
 
-// cant use init lise so push back here :P
-TERM_SYMBOLS.push_back('^');
-TERM_SYMBOLS.push_back('*');
-TERM_SYMBOLS.push_back(VAR_SYMBOL);
-
-POLY_LINK_SYMBOLS.push_back('+');
-POLY_LINK_SYMBOLS.push_back('-');
 /**
  * @brief Math utils
  *
@@ -113,3 +109,4 @@ void print_err(std::string message);
 void print(std::string message);
 
 void computor(std::string input);
+#endif  //!__MAIN__H__
