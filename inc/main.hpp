@@ -67,8 +67,8 @@ public:
 const char VAR_SYMBOL = 'x';
 const char EQ_SYMBOL = '=';
 const char KARET_SYMBOL = '^';
-const std::vector<char> TERM_SYMBOLS = {'^', '*', VAR_SYMBOL};
-const std::vector<char> POLY_LINK_SYMBOLS = {'+', '-'};
+const std::vector<char> TERM_SYMBOLS;
+const std::vector<char> POLY_LINK_SYMBOLS;
 
 // cant use init lise so push back here :P
 TERM_SYMBOLS.push_back('^');
