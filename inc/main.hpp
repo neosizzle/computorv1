@@ -70,6 +70,13 @@ const char KARET_SYMBOL = '^';
 const std::vector<char> TERM_SYMBOLS = {'^', '*', VAR_SYMBOL};
 const std::vector<char> POLY_LINK_SYMBOLS = {'+', '-'};
 
+// cant use init lise so push back here :P
+TERM_SYMBOLS.push_back('^');
+TERM_SYMBOLS.push_back(''*);
+TERM_SYMBOLS.push_back(VAR_SYMBOL);
+
+POLY_LINK_SYMBOLS.push_back('+');
+POLY_LINK_SYMBOLS.push_back('-');
 /**
  * @brief Math utils
  *
