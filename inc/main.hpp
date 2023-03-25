@@ -72,7 +72,7 @@ const std::vector<char> POLY_LINK_SYMBOLS = {'+', '-'};
 
 // cant use init lise so push back here :P
 TERM_SYMBOLS.push_back('^');
-TERM_SYMBOLS.push_back(''*);
+TERM_SYMBOLS.push_back('*');
 TERM_SYMBOLS.push_back(VAR_SYMBOL);
 
 POLY_LINK_SYMBOLS.push_back('+');
