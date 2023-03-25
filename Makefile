@@ -1,7 +1,7 @@
 NAME = computor
 CPP = c++ -fsanitize=address -g3
 INCS = inc
-CPP_FLAGS = -I${INCS}
+CPP_FLAGS = -I${INCS} -std=c++11
 SRCS = srcs/computor.cpp srcs/main.cpp srcs/math.cpp srcs/print.cpp srcs/termutils.cpp srcs/utils.cpp
 
 # Style constants

@@ -4,14 +4,6 @@ void computor(std::string arg)
 {
 	std::vector<Term> terms;
 
-	// cant use init list so push back here :P
-	// TERM_SYMBOLS.push_back('^');
-	// TERM_SYMBOLS.push_back('*');
-	// TERM_SYMBOLS.push_back(VAR_SYMBOL);
-
-	// POLY_LINK_SYMBOLS.push_back('+');
-	// POLY_LINK_SYMBOLS.push_back('-');
-
 	// trim all whitespaces from input
 	arg.erase(std::remove_if(arg.begin(), arg.end(), isspace), arg.end());
 
