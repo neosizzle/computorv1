@@ -1,8 +1,11 @@
 NAME = computor
 CPP = c++ -fsanitize=address -g3
 INCS = inc
-CPP_FLAGS = -I${INCS} -std=c++11
+BUILDDIR=build/
+CPP_FLAGS = -I${INCS} -std=c++11 -Wall -Wextra
 SRCS = srcs/computor.cpp srcs/main.cpp srcs/math.cpp srcs/print.cpp srcs/termutils.cpp srcs/utils.cpp
+OBJS = ${SRCS:.cpp=.o}
+OBJS_TARGET=${addprefix ${BUILDDIR},${subst /,_,${OBJS}}}
 
 # Style constants
 RED=\033[0;31m
@@ -15,17 +18,24 @@ NC=\033[0m # No Color
 
 
 all : ${NAME}
-	@echo "${GREEN}✔️  Done compiling..${NC}"
+	@echo "${GREEN}✔️  Done build..${NC}"
 
 bonus : ${NAME}
 
-${NAME}:
-	@echo "${GREEN}📇  Compiling All sources..${NC}"
-	@${CPP} ${CPP_FLAGS} ${SRCS} -o ${NAME}
+${NAME}: ${OBJS_TARGET}
+	@echo "${GREEN}😏  Linking..${NC}"
+	@${CPP} ${BUILDDIR}*.o ${CPP_FLAGS} -o ${NAME}
+
+build/%.o : ${OBJS}
+	@echo "${GREEN}📇  Compile finish..${NC}"
+
+.cpp.o : 
+	@echo "${GREEN}📇  Compiling $<..${NC}"
+	@${CPP} ${CPP_FLAGS} -c $< -o ${BUILDDIR}${subst /,_,$@}
 
 clean : 
 	@echo "${YELLOW}🗑️  Removing Objects..${NC}"
-	@rm -rf *.o
+	@rm -rf ${BUILDDIR}*.o
 
 fclean : clean
 	@echo "${YELLOW}🗑️  Removing ${NAME}..${NC}"

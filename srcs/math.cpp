@@ -138,7 +138,7 @@ static Solution evaluate_monomial(std::vector<Term> terms)
 	print(std::string(BOLDGREEN) + "========== CALCUATION ==========" + std::string(RESET));
 
 	a = terms[0].constant;
-	if (terms[0].is_neg) b *= -1;
+	if (terms[0].is_neg) a *= -1;
 
 	b = terms[1].constant;
 	if (terms[1].is_neg) b *= -1;

@@ -195,7 +195,7 @@ int validate_term(std::string term_str)
 	if (std::count(term_str.begin(), term_str.end(), '*') > 1)
 		return 1;
 
-	const int MULT_IDX = term_str.find('*');
+	const size_t MULT_IDX = term_str.find('*');
 
 	if (MULT_IDX != std::string::npos)
 	{
@@ -212,7 +212,7 @@ int validate_term(std::string term_str)
 			return 1;
 	}
 
-	const int VAR_IDX = term_str.find(VAR_SYMBOL);
+	const size_t VAR_IDX = term_str.find(VAR_SYMBOL);
 	if (VAR_IDX != std::string::npos)
 	{
 		// 'x' must not be followed by the variable and must only be predeceased by '^'
@@ -223,7 +223,7 @@ int validate_term(std::string term_str)
 			return 1;
 	}
 
-	const int KARET_IDX = term_str.find(KARET_SYMBOL);
+	const size_t KARET_IDX = term_str.find(KARET_SYMBOL);
 	if (KARET_IDX != std::string::npos)
 	{
 		// '^' must be followed by a variable
@@ -341,8 +341,8 @@ void simplify_terms(std::vector<Term> &terms)
  */
 void extract_terms(std::string str, std::vector<Term> &terms)
 {
-	int read_start;
-	int read_end;
+	size_t read_start;
+	size_t read_end;
 	std::string curr_term_str;
 	char curr;
 
