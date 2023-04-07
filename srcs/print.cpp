@@ -26,10 +26,14 @@ void print_solution(Solution sol)
 
 		// print solution one
 		print(std::string(BOLDWHITE) + std::string("Solution one: " )+ std::string(RESET) + std::to_string(sol.solution_one));
+		print(std::string(BOLDWHITE) + std::string("Solution one fraction: " )+ std::string(RESET) + ft_lowest_frac(sol.solution_one));
 
 		// if num of sols is 2, print solution 2
 		if (sol.num_sols == 2)
+		{
 			print(std::string(BOLDWHITE) + std::string("Solution two: " )+ std::string(RESET) + std::to_string(sol.solution_two));
+			print(std::string(BOLDWHITE) + std::string("Solution two fraction: " )+ std::string(RESET) + ft_lowest_frac(sol.solution_two));
+		}
 	}
 	// positive discriminant
 	else if (sol.neg_discriminant == false)
@@ -40,10 +44,14 @@ void print_solution(Solution sol)
 
 		// print solution one
 		print(std::string(BOLDWHITE) + std::string("Solution one: " )+ std::string(RESET) + std::to_string(sol.solution_one));
+		print(std::string(BOLDWHITE) + std::string("Solution one fraction: " )+ std::string(RESET) + ft_lowest_frac(sol.solution_one));
 
 		// if num of sols is 2, print solution 2
 		if (sol.num_sols == 2)
+		{
 			print(std::string(BOLDWHITE) + std::string("Solution two: " )+ std::string(RESET) + std::to_string(sol.solution_two));
+			print(std::string(BOLDWHITE) + std::string("Solution two fraction: " )+ std::string(RESET) + ft_lowest_frac(sol.solution_two));
+		}
 	}
 	else
 	{
@@ -53,10 +61,14 @@ void print_solution(Solution sol)
 
 		// print solution one
 		print(std::string(BOLDWHITE) + std::string("Solution one: " )+ std::string(RESET) + std::to_string(sol.imaginary_coefficient) + std::string("+") + std::to_string(sol.imaginary_term) + "i");
+		print(std::string(BOLDWHITE) + std::string("Solution one fraction: " )+ std::string(RESET) + ft_lowest_frac(sol.solution_one));
 
 		// if num of sols is 2, print solution 2
 		if (sol.num_sols == 2)
-			print(std::string(BOLDWHITE) + std::string("Solution two: " )+ std::string(RESET) + std::to_string(sol.imaginary_coefficient) + std::string("-") + std::to_string(sol.imaginary_term) + "i");
+		{
+			print(std::string(BOLDWHITE) + std::string("Solution two: " )+ std::string(RESET) + std::to_string(sol.solution_two));
+			print(std::string(BOLDWHITE) + std::string("Solution two fraction: " )+ std::string(RESET) + ft_lowest_frac(sol.solution_two));
+		}
 	}
 }
 

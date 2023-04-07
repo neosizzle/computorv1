@@ -1,6 +1,59 @@
 #include "main.hpp"
 
 /**
+ * @brief euclids method to return greatest common divider
+*/
+static float ft_gcd(int a, int b)
+{
+	if (a < b) return 1;
+	if (b == 0) return a;
+	return ft_gcd(b, a % b);
+}
+
+/**
+ * @brief returns absolute value
+ * 
+ * @param a 
+ */
+static float ft_ab(float a)
+{
+	if (a < 0)
+		return a * -1;
+	return a;
+}
+
+/**
+ * @brief returnslowest fraction of a number
+ * 
+ * @param a 
+ * @return string
+ */
+std::string ft_lowest_frac(float num)
+{
+	int whole = num;
+	int currBase = 1;
+	int denom = 1000;
+	int numer = 0;
+	std::string res = "";
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		int factor = ft_pow(10, 2 - i);
+		num -= (int)num;
+		num = num * 10;
+		currBase *= 10;
+		numer += (int)num * factor;
+	}
+
+	if (whole != 0)
+		res += std::to_string(whole) + " + ";
+	res += std::to_string(int(ft_ab(numer / ft_gcd(denom, numer))));
+	res += " / ";
+	res += std::to_string(int(ft_ab(denom / ft_gcd(denom, numer))));
+	return res;
+}
+
+/**
  * @brief returns absolute value between two numbers
  * 
  * @param a 

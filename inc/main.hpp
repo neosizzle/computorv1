@@ -82,6 +82,7 @@ const std::vector<char> POLY_LINK_SYMBOLS = {'+', '-'};
 float ft_abs(float a, float b);
 float ft_sqrt(float x, float guess);
 float ft_pow(float a, int power);
+std::string ft_lowest_frac(float num);
 Solution evaluate_equation(std::vector<Term> terms);
 
 /**
