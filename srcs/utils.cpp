@@ -26,35 +26,6 @@ char validate_symbols(std::string str)
 
 /**
  * @brief Count how many digit in a number
- * 
- * @param number 
- * @return int 
- */
-int count_digit(float number) {
-	int count = 0;
-	int decimCount = 0;
-
-	// count whole places
-	while (number >= 1)
-	{
-		number = number / 10;
-		count++;
-	}
-   
-	std::cout << "nubmer " << number << "\n";
-	// count decimal places
-	while(number - int(number) != 0) {
-		number = number * 10;
-		decimCount++;
-	}
-	std::cout << "nubmer 2 " << number << "\n";
-	std::cout << "decocnt " << decimCount << "\n";
-	if (decimCount > count) return decimCount;
-	return count;
-}
-
-/**
- * @brief Count how many digit in a number
  * assumes no prefixes
  * 
  * @param str 
