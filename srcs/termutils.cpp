@@ -33,7 +33,7 @@ std::string terms_to_str(std::vector<Term> terms)
 		// print constant
 		if (curr_term.constant == 0)
 		{
-			ss <<  '0';
+			ss <<  "0 ";
 			continue;
 		}
 		ss << curr_term.constant;
@@ -120,7 +120,7 @@ Term parse_term(std::string term_str)
 {
 	Term res;
 	int read_idx;
-	int constant;
+	float constant;
 	int power;
 	int is_neg;
 	int const_is_var;
@@ -130,16 +130,16 @@ Term parse_term(std::string term_str)
 	power = 0;
 	is_neg = false;
 
+	// look for '+'
+	if (term_str[read_idx] == '+')
+		++read_idx;
+
 	// look for '-'
 	if (term_str[read_idx] == '-')
 	{
 		is_neg = true;
 		++read_idx;
 	}
-
-	// look for '+'
-	if (term_str[read_idx] == '+')
-		++read_idx;
 
 	// obtain constant value
 	if (term_str[read_idx] == VAR_SYMBOL)
@@ -148,10 +148,10 @@ Term parse_term(std::string term_str)
 		const_is_var = 1;
 	}
 	else
-		constant = atoi(term_str.c_str() + read_idx);
+		constant = atof(term_str.c_str() + read_idx);
 
 	// increm read idx
-	read_idx += count_digit(constant);
+	read_idx += scount_digit(term_str.c_str() + read_idx);
 
 	// if '*' is found, increm read index so it points to variable
 	if (term_str[read_idx] == '*')
@@ -188,8 +188,8 @@ Term parse_term(std::string term_str)
 int validate_term(std::string term_str)
 {
 	// check for sole '+' and '-'
-	if (term_str == "+" || term_str == "-")
-		return 1;
+	// if (term_str == "+" || term_str == "-")
+	// 	return 1;
 
 	// can only have 1 or 0 '*'
 	if (std::count(term_str.begin(), term_str.end(), '*') > 1)
@@ -306,7 +306,7 @@ void simplify_terms(std::vector<Term> &terms)
 				{
 					// curr iter term is positive
 					if (curr_term.constant > new_term.constant) new_term.is_neg = false;
-					new_term.constant = (float)ft_abs(new_term.constant, curr_term.constant);
+					new_term.constant = ft_abs(new_term.constant, curr_term.constant);
 				}
 
 			}
@@ -320,7 +320,9 @@ void simplify_terms(std::vector<Term> &terms)
 					new_term.constant = (float)ft_abs(new_term.constant, curr_term.constant);
 				}
 				else
+				{
 					new_term.constant += curr_term.constant;
+				}
 			}
 		}
 	}
@@ -328,6 +330,19 @@ void simplify_terms(std::vector<Term> &terms)
 	//add last term
 	if (curr_power != INT16_MAX)
 		new_terms.push_back(new_term);
+
+	// clean zeroes
+	for ( size_t i = 0; i < new_terms.size(); ++i)
+	{
+		if (new_terms[i].constant == 0)
+			new_terms[i].power = 0;
+	}
+
+	for ( size_t i = 0; i < new_terms.size() - 1; ++i)
+	{
+		if (new_terms[i].constant == 0)
+			new_terms.erase(new_terms.begin() + i);
+	}
 
 	// override term
 	terms = new_terms;
@@ -428,18 +443,12 @@ int validate_equation(std::vector<Term> terms)
 		return 1;
 	}
 
-	// check if min power is 1
-	if (terms[0].power <= 0)
+	// check if min power is 0
+	if (terms[0].power < 0)
 	{
-		print_err("Degree must be greater than 0");
+		print_err("Degree must be at least 0");
 		return 1;
 	}
-	// check if num of terms is more than 3
-	// if (terms.size() > 3)
-	// {
-	// 	std::cout << "Bad number of terms\n";
-	// 	return 1;
-	// }
 
 	// all good
 	return 0;

@@ -2,15 +2,40 @@
 
 void print_solution(Solution sol)
 {
+	// print all possible solutions
+	if (sol.all_interger_solution && sol.for_degree == 0)
+	{
+		print(std::string(BOLDWHITE) + std::string("Number of solutions: " )+ std::string(RESET) + "All integers");
+		return;
+	}
+	else if (!sol.all_interger_solution && sol.for_degree == 0)
+	{
+		print(std::string(BOLDWHITE) + std::string("Number of solutions: " )+ std::string(RESET) + "Impossible");
+		return;
+	}
+
 	// print number of solutions
 	print(std::string(BOLDWHITE) + std::string("Number of solutions: " )+ std::string(RESET) + std::to_string(sol.num_sols));
 
+	// zero discriminant
+	if (sol.zero_discriminant)
+	{
+		// print no discriminant
+		print(std::string(BOLDWHITE) + std::string("Dissciminant " )+ std::string(RESET) + "Zero");
+
+
+		// print solution one
+		print(std::string(BOLDWHITE) + std::string("Solution one: " )+ std::string(RESET) + std::to_string(sol.solution_one));
+
+		// if num of sols is 2, print solution 2
+		if (sol.num_sols == 2)
+			print(std::string(BOLDWHITE) + std::string("Solution two: " )+ std::string(RESET) + std::to_string(sol.solution_two));
+	}
 	// positive discriminant
-	if (sol.neg_discriminant == false)
+	else if (sol.neg_discriminant == false)
 	{
 		// print positive discriminant
-		if (sol.for_degree == 2)
-			print(std::string(BOLDWHITE) + std::string("Dissciminant " )+ std::string(RESET) + "Positive");
+		print(std::string(BOLDWHITE) + std::string("Dissciminant " )+ std::string(RESET) + "Positive");
 
 
 		// print solution one
@@ -22,7 +47,7 @@ void print_solution(Solution sol)
 	}
 	else
 	{
-		// print positive discriminant
+		// print negative discriminant
 		print(std::string(BOLDWHITE) + std::string("Dissciminant " )+ std::string(RESET) + "Negative");
 
 

@@ -7,7 +7,7 @@
  * @param b 
  * @return int 
  */
-int ft_abs(int a, int b)
+float ft_abs(float a, float b)
 {
 	if (a > b) return a - b;
 	else return b - a;
@@ -124,13 +124,15 @@ static Solution evaluate_monomial(std::vector<Term> terms)
 	float a;
 
 	res.neg_discriminant = false;
+	res.zero_discriminant = false;
 	res.num_sols = 1;
 	res.solution_one = 0;
 	res.solution_two = 0;
 	res.imaginary_coefficient = -1;
 	res.imaginary_term = -1;
 	res.for_degree = 1;
-
+	res.all_interger_solution = false;
+	
 	// if length of terms is 1, return solution
 	if (terms.size() == 1) return res;
 
@@ -148,7 +150,7 @@ static Solution evaluate_monomial(std::vector<Term> terms)
 	res.solution_two = result;
 
 	//print result formula
-	print(std::string(BOLDWHITE) + std::string("Solution: ") + std::string(RESET) + std::string(BOLDWHITE) + std::to_string((int)b) + std::string(RESET) + std::string(" * -1 / ") + std::string(BOLDWHITE) + std::to_string((int)a) + std::string(RESET));
+	print(std::string(BOLDWHITE) + std::string("Solution: ") + std::string(RESET) + std::string(BOLDWHITE) + std::to_string(b) + std::string(RESET) + std::string(" * -1 / ") + std::string(BOLDWHITE) + std::to_string(a) + std::string(RESET));
 
 	// print banner
 	print(std::string(BOLDGREEN) + "========== CALCUATION END ==========" + std::string(RESET));
@@ -170,33 +172,37 @@ static Solution evaluate_bonimial(std::vector<Term> terms)
 	// run quadratic formula (-b +- sqrt(b^2-4ac))/2a
 	Solution res;
 	res.neg_discriminant = false;
+	res.zero_discriminant = false;
 	res.num_sols = -1;
 	res.solution_one = 0;
 	res.solution_two = 0;
 	res.imaginary_coefficient = -1;
 	res.imaginary_term = -1;
 	res.for_degree = 2;
+	res.all_interger_solution = false;
 
 	// print banner
 	print(std::string(BOLDGREEN) + "========== CALCUATION ==========" + std::string(RESET));
 
 	// print a, b, and c
-	print(std::string(BOLDWHITE) + std::string("a: ") + std::string(RESET) + std::to_string((int)eq.a));
-	print(std::string(BOLDWHITE) + std::string("b: ") + std::string(RESET) + std::to_string((int)eq.b));
-	print(std::string(BOLDWHITE) + std::string("c: ") + std::string(RESET) + std::to_string((int)eq.c));
+	print(std::string(BOLDWHITE) + std::string("a: ") + std::string(RESET) + std::to_string(eq.a));
+	print(std::string(BOLDWHITE) + std::string("b: ") + std::string(RESET) + std::to_string(eq.b));
+	print(std::string(BOLDWHITE) + std::string("c: ") + std::string(RESET) + std::to_string(eq.c));
 
 
 	// evaluate discriminant b^2-4ac
 	discriminant = ft_pow(eq.b, 2) - 4 * eq.a * eq.c;
 
 	// print discriminant
-	print(std::string(BOLDWHITE) + std::string("b^2-4ac (discriminant): ") + std::string(RESET) + std::to_string((int)discriminant));
+	print(std::string(BOLDWHITE) + std::string("b^2-4ac (discriminant): ") + std::string(RESET) + std::to_string(discriminant));
 
 	if (discriminant < 0)
 	{
 		res.neg_discriminant = true;
 		discriminant *= -1;
 	}
+	if (discriminant == 0)
+		res.zero_discriminant = true;
 	float discriminant_squared = ft_sqrt(discriminant, discriminant / 2);
 
 	// print discriminant squared
@@ -229,10 +235,41 @@ static Solution evaluate_bonimial(std::vector<Term> terms)
 	return res;
 }
 
+
+/**
+ * @brief evaluate evaluates zero degreee sol
+ * 
+ * @param terms 
+ * @return Solution 
+ */
+static Solution evaluate_zerodegree(std::vector<Term> terms)
+{
+	DinobialEquation eq;
+
+	eq.a = 0;
+	eq.b = 0;
+	eq.c = terms.size() > 0 ? terms[0].constant : 0;
+
+	Solution res;
+	res.neg_discriminant = false;
+	res.zero_discriminant = false;
+	res.num_sols = -1;
+	res.solution_one = 0;
+	res.solution_two = 0;
+	res.imaginary_coefficient = -1;
+	res.imaginary_term = -1;
+	res.for_degree = 0;
+	res.all_interger_solution = eq.c == 0;
+
+	return res;
+}
+
+
 Solution evaluate_equation(std::vector<Term> terms)
 {
 	// calls evaluate_bonimialeval if degree of polynomial is 2, evaluate_monomial when degree is 1
 	if (terms[0].power == 2) return evaluate_bonimial(terms);
-	else return evaluate_monomial(terms);
+	else if (terms[0].power == 1) return evaluate_monomial(terms);
+	else return evaluate_zerodegree(terms);
 
 }
