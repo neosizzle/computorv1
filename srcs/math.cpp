@@ -34,8 +34,14 @@ std::string ft_lowest_frac(float num)
 	int currBase = 1;
 	int denom = 1000;
 	int numer = 0;
+	int num_neg = 0;
 	std::string res = "";
 
+	if (num < 0)
+	{
+		num_neg = 1;
+		num *= -1;
+	}	
 	for (size_t i = 0; i < 3; i++)
 	{
 		int factor = ft_pow(10, 2 - i);
@@ -47,6 +53,8 @@ std::string ft_lowest_frac(float num)
 
 	if (whole != 0)
 		res += std::to_string(whole) + " + ";
+	else if (num_neg)
+		res += " - ";
 	res += std::to_string(int(ft_ab(numer / ft_gcd(denom, numer))));
 	res += " / ";
 	res += std::to_string(int(ft_ab(denom / ft_gcd(denom, numer))));
